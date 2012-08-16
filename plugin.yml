@@ -1,0 +1,4 @@
+name: MyChunkPlus
+main: me.lucasemanuel.mychunkplus.Main
+version: 1.0
+depends: [MyChunk]
