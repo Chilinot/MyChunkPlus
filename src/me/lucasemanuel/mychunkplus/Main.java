@@ -66,7 +66,7 @@ class PlusListener implements Listener {
 		
 		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
 		
-		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunplus.override")) {
+		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunkplus.override")) {
 			
 			if(event.getBlock().getType().equals(Material.WALL_SIGN) || event.getBlock().getType().equals(Material.SIGN_POST)) {
 				this.monitoredsigns.add(event.getBlock().getLocation());
@@ -83,7 +83,7 @@ class PlusListener implements Listener {
 		
 		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
 		
-		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunplus.override")) {
+		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunkplus.override")) {
 			event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
 			event.setCancelled(true);
 		}
@@ -92,7 +92,7 @@ class PlusListener implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onSignChange(SignChangeEvent event) {
 		
-		if(monitoredsigns.contains(event.getBlock().getLocation()) && !event.getPlayer().hasPermission("mychunplus.override")) {
+		if(monitoredsigns.contains(event.getBlock().getLocation()) && !event.getPlayer().hasPermission("mychunkplus.override")) {
 			String firstline = event.getLine(0).toLowerCase();
 			
 			if(!firstline.equals("[claim]")) {
