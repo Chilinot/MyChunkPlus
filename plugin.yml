@@ -1,4 +1,9 @@
 name: MyChunkPlus
 main: me.lucasemanuel.mychunkplus.Main
-version: 1.0
+version: 1.1
 depends: [MyChunk]
+
+permissions:
+  mychunkplus.override:
+    description: Allows a user to build on unowned chunks.
+    default: op
