@@ -92,14 +92,19 @@ class PlusListener implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onSignChange(SignChangeEvent event) {
 		
-		if(monitoredsigns.contains(event.getBlock().getLocation()) && !event.getPlayer().hasPermission("mychunkplus.override")) {
-			String firstline = event.getLine(0).toLowerCase();
-			
-			if(!firstline.equals("[claim]")) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
-				event.setCancelled(true);
-				event.getBlock().breakNaturally();
-				this.monitoredsigns.remove(event.getBlock().getLocation());
+		if(monitoredsigns.contains(event.getBlock().getLocation())) {
+			if(!event.getPlayer().hasPermission("mychunkplus.override")) {
+				String firstline = event.getLine(0).toLowerCase();
+				
+				if(!firstline.equals("[claim]")) {
+					event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
+					event.setCancelled(true);
+					event.getBlock().breakNaturally();
+					this.monitoredsigns.remove(event.getBlock().getLocation());
+				}
+			}
+			else {
+				monitoredsigns.remove(event.getBlock().getLocation());
 			}
 		}
 	}
