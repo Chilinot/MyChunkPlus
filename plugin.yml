@@ -1,6 +1,6 @@
 name: MyChunkPlus
 main: me.lucasemanuel.mychunkplus.Main
-version: 1.1
+version: 1.2
 depends: [MyChunk]
 
 permissions:
