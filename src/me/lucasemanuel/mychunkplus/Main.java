@@ -61,7 +61,7 @@ class PlusListener implements Listener {
 		logger.debug("Initiated");
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		
 		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
@@ -78,7 +78,7 @@ class PlusListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockBreak(BlockBreakEvent event) {
 		
 		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
@@ -89,7 +89,7 @@ class PlusListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onSignChange(SignChangeEvent event) {
 		
 		if(monitoredsigns.contains(event.getBlock().getLocation())) {
