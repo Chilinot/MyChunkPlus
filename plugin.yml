@@ -1,7 +1,7 @@
 name: MyChunkPlus
 main: me.lucasemanuel.mychunkplus.Main
-version: 1.3
-depends: [MyChunk]
+version: 1.4
+depend: [MyChunk, WorldGuard]
 
 permissions:
   mychunkplus.override:
