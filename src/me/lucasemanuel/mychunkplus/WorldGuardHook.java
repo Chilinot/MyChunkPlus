@@ -28,13 +28,14 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class WorldGuardHook {
 	
-	@SuppressWarnings("unused")
 	public static boolean isRegion(Location location) {
+		
 		ApplicableRegionSet ars = getApplicableRegionSet(location);
-		for(ProtectedRegion pr : ars) {
+		
+		if(ars.size() == 0)
+			return false;
+		else
 			return true;
-		}
-		return false;
 	}
 	
 	public static LocalPlayer getLocalPlayer(Player player) {
