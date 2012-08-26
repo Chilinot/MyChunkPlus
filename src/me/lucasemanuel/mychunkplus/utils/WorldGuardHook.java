@@ -13,7 +13,7 @@
  * 
  */
 
-package me.lucasemanuel.mychunkplus;
+package me.lucasemanuel.mychunkplus.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

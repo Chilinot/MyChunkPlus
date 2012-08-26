@@ -3,6 +3,12 @@ main: me.lucasemanuel.mychunkplus.Main
 version: 1.4
 depend: [MyChunk, WorldGuard]
 
+commands:
+  mcpcleanworld:
+    description: Removes all claims on loaded chunks for the specified world.
+    usage: /<command> <worldname>
+    permission: mychunkplus.commands.mcpcleanworld
+
 permissions:
   mychunkplus.override:
     description: Allows a user to build on unowned chunks.

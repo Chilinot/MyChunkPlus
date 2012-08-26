@@ -15,26 +15,18 @@
 
 package me.lucasemanuel.mychunkplus;
 
-import java.util.HashSet;
+import me.lucasemanuel.mychunkplus.utils.Config;
+import me.lucasemanuel.mychunkplus.utils.ConsoleLogger;
 
-import me.ellbristow.mychunk.MyChunk;
-import me.ellbristow.mychunk.MyChunkChunk;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 	
 	private ConsoleLogger logger;
+	private ChunkCleaner chunkcleaner;
 	
 	public void onEnable() {
 		Config.load(this);
@@ -44,68 +36,43 @@ public class Main extends JavaPlugin {
 		
 		this.getServer().getPluginManager().registerEvents(new PlusListener(this), this);
 		
+		Commands executor = new Commands(this);
+		this.getCommand("mcpcleanworld").setExecutor(executor);
+		
+		chunkcleaner = new ChunkCleaner(this);
+		
 		logger.debug("Startup finished!");
 	}
-
+	
+	public ChunkCleaner getChunkCleaner() {
+		return chunkcleaner;
+	}
 }
 
-class PlusListener implements Listener {
+class Commands implements CommandExecutor {
 	
 	private ConsoleLogger logger;
+	private Main plugin;
 	
-	private HashSet<Location> monitoredsigns = new HashSet<Location>();
-	
-	public PlusListener(Main instance) {
-		this.logger = new ConsoleLogger(instance, "Listener");
+	public Commands(Main instance) {
+		plugin = instance;
+		logger = new ConsoleLogger(instance, "CommandExecutor");
 		
 		logger.debug("Initiated");
 	}
-	
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onBlockPlace(BlockPlaceEvent event) {
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
-		
-		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunkplus.override") && !WorldGuardHook.isRegion(event.getBlock().getLocation())) {
+		if(cmd.getName().equalsIgnoreCase("mcpcleanworld")) {
 			
-			if(event.getBlock().getType().equals(Material.WALL_SIGN) || event.getBlock().getType().equals(Material.SIGN_POST)) {
-				this.monitoredsigns.add(event.getBlock().getLocation());
-			}
-			else {
-				event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
-				event.setCancelled(true);
-			}
+			if(args.length != 1) return false;
+			
+			this.plugin.getChunkCleaner().removeChunks(args[0]);
+			
+			return true;
 		}
-	}
-	
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onBlockBreak(BlockBreakEvent event) {
 		
-		MyChunkChunk chunk = new MyChunkChunk(event.getBlock(), (MyChunk) Bukkit.getServer().getPluginManager().getPlugin("MyChunk"));
-		
-		if(!chunk.isClaimed() && !event.getPlayer().hasPermission("mychunkplus.override") && !WorldGuardHook.isRegion(event.getBlock().getLocation())) {
-			event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onSignChange(SignChangeEvent event) {
-		
-		if(monitoredsigns.contains(event.getBlock().getLocation())) {
-			if(!event.getPlayer().hasPermission("mychunkplus.override")) {
-				String firstline = event.getLine(0).toLowerCase();
-				
-				if(!firstline.equals("[claim]")) {
-					event.getPlayer().sendMessage(ChatColor.RED + "Du har inte tillåtelse att bygga på mark du inte äger!");
-					event.setCancelled(true);
-					event.getBlock().breakNaturally();
-					this.monitoredsigns.remove(event.getBlock().getLocation());
-				}
-			}
-			else {
-				monitoredsigns.remove(event.getBlock().getLocation());
-			}
-		}
+		return false;
 	}
 }

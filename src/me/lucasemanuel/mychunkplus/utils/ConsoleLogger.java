@@ -10,7 +10,7 @@
  *  Takes care of all the logging to the console.
  * 
  */
-package me.lucasemanuel.mychunkplus;
+package me.lucasemanuel.mychunkplus.utils;
 
 import java.util.HashSet;
 import java.util.Set;
