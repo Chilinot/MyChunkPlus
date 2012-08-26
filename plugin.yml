@@ -1,6 +1,6 @@
 name: MyChunkPlus
 main: me.lucasemanuel.mychunkplus.Main
-version: 1.4
+version: 2.0
 depend: [MyChunk, WorldGuard]
 
 commands:
