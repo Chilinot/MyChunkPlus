@@ -58,9 +58,6 @@ public class ChunkCleaner {
 				int x = Integer.parseInt(parts[parts.length - 2]);
 				int z = Integer.parseInt(parts[parts.length - 1]);
 				
-				System.out.println("X: " + x);
-				System.out.println("Z: " + z);
-				
 				MyChunkChunk chunk = MyChunkHook.getChunk(world.getChunkAt(x, z).getBlock(0, 0, 0));
 				
 				if(chunk.isClaimed()) chunk.unclaim();
